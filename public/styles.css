@@ -4,30 +4,32 @@ body {
 #root {
   height: 100%;
 }
-
-
-
-*{
+* {
   box-sizing: border-box;
 }
-html,body,#app { height:100%; margin: 0; padding: 0;
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 body {
-background: #eee;
-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #eee;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-h1{
-font-weight: 200; color: #3b414c; font-size: 20px;
+h1 {
+  font-weight: 200;
+  color: #3b414c;
+  font-size: 20px;
 }
 ul {
-list-style-type: none; padding: 0;
-margin: 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 .app {
   white-space: nowrap;
-  height:100%;
+  height: 100%;
 }
-
 .list {
   position: relative;
   display: inline-block;
@@ -38,7 +40,7 @@ margin: 0;
   padding: 0 20px;
   overflow: auto;
 }
-.list:not(:last-child):after{
+.list:not(:last-child):after {
   content: "";
   position: absolute;
   top: 0;
@@ -63,17 +65,21 @@ margin: 0;
   font-weight: bold;
   border-bottom: solid 5px transparent;
 }
-.card__title:before { display: inline-block; width: 1em;
-content: '▶';
+.card__title:before {
+  display: inline-block;
+  width: 1em;
+  content: '▶';
 }
-.card__title--is-open:before { content: '▼';
+.card__title--is-open:before {
+  content: '▼';
 }
 .checklist__task:first-child {
   margin-top: 10px;
   padding-top: 10px;
   border-top: dashed 1px #ddd;
 }
-.checklist__task--remove:after{ display: inline-block;
-color: #d66;
-content: "❌";
+.checklist__task--remove:after {
+  display: inline-block;
+  color: #d66;
+  content: "❌";
 }
