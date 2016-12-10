@@ -18,8 +18,8 @@
     "webpack-dev-server": "~1.14.*"
   },
   "dependencies": {
+    "marked": "^0.3.6",
     "react": "^15.2.1",
     "react-dom": "^15.2.1"
   }
 }
-
