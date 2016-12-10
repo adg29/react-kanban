@@ -9,23 +9,29 @@ class Card extends Component {
     }
   }
 
+  toggleDetails() {
+    this.setState({
+      showDetails: !this.state.showDetails
+    });
+  }
+
   render() {
     let cardDetails;
     if (this.state.showDetails) {
       cardDetails = (
-           <div className="card__details">
-             { this.props.description }
-             <CheckList cardId={ this.props.id } tasks={ this.props.tasks } />
-           </div>
+        <div className="card__details">
+          { this.props.description }
+          <CheckList cardId={ this.props.id } tasks={ this.props.tasks } />
+        </div>
 
-        )
+      )
     }
     return ( <div className="card">
-               <div className="card__title" onClick={ ()=> this.setState({showDetails: !this.state.showDetails}) }>
+               <div className="card__title" onClick={this.toggleDetails.bind(this)}>
                  { this.props.title }
                </div>
-               {cardDetails}
-            </div> );
+               { cardDetails }
+             </div> );
   }
 }
 export default Card;
