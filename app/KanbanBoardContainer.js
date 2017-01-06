@@ -107,8 +107,8 @@ class KanbanBoardContainer extends Component {
 
   }
   toggleTask(cardId, taskId, taskIndex) {
-// Keep a reference to the original state prior to the mutations // in case you need to revert the optimistic changes in the UI 
-let prevState = this.state;
+    // Keep a reference to the original state prior to the mutations // in case you need to revert the optimistic changes in the UI 
+    let prevState = this.state;
 
     // Find the index of the card
     let cardIndex = this.state.cards.findIndex((card) => card.id == cardId);
@@ -141,19 +141,64 @@ let prevState = this.state;
         done: newDoneValue
       })
     })
-  .then((response) => {
-if(!response.ok){
-// Throw an error if server response wasn't 'ok' 
-// to revert back the optimistic changes 
-// made to the UI.
-throw new Error("Server response wasn't OK")
-} })
-.catch((error) => { console.error("Fetch error:",error);
-	this.setState(prevState);
-});
+      .then((response) => {
+        if (!response.ok) {
+          // Throw an error if server response wasn't 'ok' 
+          // to revert back the optimistic changes 
+          // made to the UI.
+          throw new Error("Server response wasn't OK")
+        }
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error);
+        this.setState(prevState);
+      });
 
 
   }
+
+  updateCardStatus(cardId, listId) {
+    // Find the index of the card
+    let cardIndex = this.state.cards.findIndex((card) => card.id == cardId);
+    // Get the current card
+    let card = this.state.cards[cardIndex]
+    // Only proceed if hovering over a different list
+    if (card.status !== listId) {
+      // set the component state to the mutated object
+      this.setState(update(this.state, {
+        cards: {
+          [cardIndex]: {
+            status: {
+              $set: listId
+            }
+          }
+        }
+      }));
+    }
+  }
+
+
+ updateCardPosition (cardId , afterId) {
+    // Only proceed if hovering over a different card
+    if(cardId !== afterId) {
+      // Find the index of the card
+      let cardIndex = this.state.cards.findIndex((card)=>card.id == cardId);
+      // Get the current card
+      let card = this.state.cards[cardIndex]
+      // Find the index of the card the user is hovering over
+      let afterIndex = this.state.cards.findIndex((card)=>card.id == afterId);
+      // Use splice to remove the card and reinsert it a the new index
+      this.setState(update(this.state, {
+        cards: {
+          $splice: [
+            [cardIndex, 1],
+            [afterIndex, 0, card]
+] }
+})); }
+}
+
+      
+
   componentDidMount() {
     fetch(API_URL + '/cards', {
       headers: API_HEADERS
@@ -171,7 +216,7 @@ throw new Error("Server response wasn't OK")
 
 
   render() {
-    return <KanbanBoard cards={ this.state.cards } taskCallbacks={ { toggle: this.toggleTask.bind(this), delete: this.deleteTask.bind(this), add: this.addTask.bind(this) } } />
+    return <KanbanBoard cards={ this.state.cards } cardCallbacks={ { updateStatus: this.updateCardStatus.bind(this), updatePosition: this.updateCardPosition.bind(this) } } taskCallbacks={ { toggle: this.toggleTask.bind(this), delete: this.deleteTask.bind(this), add: this.addTask.bind(this) } } />
   }
 }
 export default KanbanBoardContainer;
